@@ -3,8 +3,11 @@
 
 
 CProgram::CProgram()
+	: intervalBetweenUpdates(10) //ms
 {
 	mainWindow = new CMainWindow(800, 600, "A* SFML");
+	gameTimer = new sf::Clock();
+	
 }
 ///
 /// NO EVENTS -> -1
@@ -14,16 +17,28 @@ int CProgram::run()
 	int returnCode = 0;
 	while (true)
 	{
-		if (mainWindow->pollWindowEvents() == 0)
-		{
+		returnCode = this->updateGame();
+		if (returnCode != -1)
 			break;
-		}
-		mainWindow->openWindow();
 	}
 	return returnCode;
 }
+int CProgram::updateGame()
+{
+	sf::Time elasped = gameTimer->getElapsedTime();
+	if (elasped.asMilliseconds() / intervalBetweenUpdates > 0)
+	{
+		if (mainWindow->pollWindowEvents() == 0)
+		{
+			return 0;
+		}
+		mainWindow->clearWindowAndDrawEverything();
+	}
+	return -1;
 
+}
 CProgram::~CProgram()
 {
 	delete mainWindow;
+	delete gameTimer;
 }

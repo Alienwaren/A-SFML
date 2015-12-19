@@ -10,7 +10,10 @@ public:
 	CMainWindow(int width, int height, std::string title);
 	CMainWindow(sf::VideoMode videoMode, std::string title);
 	~CMainWindow();
-	void inline openWindow()
+	///
+	///MAKE IMAGE MANAGER WHICH WILL MARK IMAGES TO BE READ AND THOSE WON'T!
+	///
+	void inline clearWindowAndDrawEverything()
 	{
 		window->clear();
 		window->display();
